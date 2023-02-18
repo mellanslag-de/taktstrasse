@@ -1,8 +1,9 @@
 
 var variables = {};
 var getVariable = function (name) {
-    console.log("Get", name, variables[name])
-    return variables[name];
+    let currentValue = variables[name];
+    console.log("Get", name, currentValue)
+    return currentValue;
 }
 
 var setVariable = function (name, value) {
@@ -10,17 +11,32 @@ var setVariable = function (name, value) {
     variables[name] = value;
 }
 
+var updateVariable = function (name, fn) {
+    let oldValue = getVariable(name);
+    let newValue = fn(oldValue);
+    setVariable(name, newValue);
+}
+
+var subscribeVariable = function (name, fn) {
+    let previousValue = getVariable(name);
+    fn(previousValue);
+
+    setInterval(() => {
+        let newValue = getVariable(name);
+        if (newValue !== previousValue) {
+            previousValue = newValue;
+            fn(newValue);
+        }
+    }, 100);
+}
+
 var simulateAction = function (name) {
     switch (name) {
-        case 'setPointsCount':
+        case 'init':
             variables["pointsCount"] = 4;
             break;
-        case 'increasePointsCount':
-            variables["pointsCount"] += 1;
+        case 'errorHappened':
+            variables["pointsCount"] = 0;
             break;
-        case 'processItem':
-            let item = variables.get('items')[0];
-            item.state = 'processed';
-            variable['items'] = [item, variables['items'].shift()]
     }
 }

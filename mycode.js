@@ -1,16 +1,19 @@
-simulateAction("setPointsCount");
+simulateAction("init");
+
 var pointsCount = getVariable("pointsCount");
 document.write(pointsCount);
 
 setInterval(() => {
-    simulateAction("increasePointsCount");
-    pointsCount = getVariable("pointsCount");
+    setVariable("pointsCount", getVariable("pointsCount") + 1);
 }, 1000)
 
+setTimeout(() => simulateAction("errorHappened"), 3500);
+
 function handleClick() {
-    simulateAction("increasePointsCount");
-    pointsCount = getVariable("pointsCount");
+    updateVariable("pointsCount", v => v + 1);
 }
+
+subscribeVariable("pointsCount", (newValue) => pointsCount = newValue);
 
 function setup() {
     createCanvas(720, 400);
