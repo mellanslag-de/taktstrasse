@@ -12,8 +12,11 @@ var setVariable = function (name, value) {
 
 var simulateAction = function (name) {
     switch (name) {
-        case 'setA':
-            variables["a"] = "x";
+        case 'setPointsCount':
+            variables["pointsCount"] = 4;
+            break;
+        case 'increasePointsCount':
+            variables["pointsCount"] += 1;
             break;
         case 'processItem':
             let item = variables.get('items')[0];
